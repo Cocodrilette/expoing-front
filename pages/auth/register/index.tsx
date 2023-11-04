@@ -1,15 +1,19 @@
-import type { NextPage } from "next";
-
-import Head from "next/head";
-import { Layout } from "../../../components/Layout";
-import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import axios from "axios";
 import Link from "next/link";
-import { Paragraph } from "../../../components/paragraph";
+import Head from "next/head";
+import { useAccount } from "wagmi";
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+import { Layout } from "../../../components/Layout";
+import { Paragraph } from "../../../components/paragraph";
 import { HeadingText2 } from "../../../components/heading-text-2";
 
 const Register: NextPage = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -25,7 +29,7 @@ const Register: NextPage = () => {
 
   const { isConnected: isWalletConnected, address } = useAccount();
 
-  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (confirmedPassword !== password) {
@@ -51,12 +55,25 @@ const Register: NextPage = () => {
       show: false,
       message: "",
     });
-    setUserName("");
-    setEmail("");
-    setPassword("");
-    setConfirmedPassword("");
-    setIdentification("");
-    setConditionsAccepted(false);
+
+    try {
+      await axios.post("/api/auth/register", data);
+
+      setUserName("");
+      setEmail("");
+      setPassword("");
+      setConfirmedPassword("");
+      setIdentification("");
+      setConditionsAccepted(false);
+
+      router.push("/auth/login");
+    } catch (error) {
+      console.log(error);
+      setError({
+        show: true,
+        message: "Something went wrong",
+      });
+    }
 
     setSubmitting(false);
   }
