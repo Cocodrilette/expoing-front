@@ -9,13 +9,15 @@ import { Paragraph } from "../../../components/paragraph";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { HeadingText2 } from "../../../components/heading-text-2";
 
-const Loggin: NextPage = () => {
+const Register: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
+  const [identification, setIdentification] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [conditionsAcepeted, setConditionsAccepted] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -33,14 +35,30 @@ const Loggin: NextPage = () => {
       });
     }
 
-    console.log({
-      userName,
+    const data = {
+      name: userName,
       email,
       password,
-      confirmedPassword,
-      conditionsAcepeted,
       address,
+      identification,
+    };
+
+    console.log({ data });
+
+    setSubmitting(true);
+
+    setError({
+      show: false,
+      message: "",
     });
+    setUserName("");
+    setEmail("");
+    setPassword("");
+    setConfirmedPassword("");
+    setIdentification("");
+    setConditionsAccepted(false);
+
+    setSubmitting(false);
   }
 
   useEffect(() => setIsMounted(true), []);
@@ -72,6 +90,7 @@ const Loggin: NextPage = () => {
                     onChange={(e) => setUserName(e.target.value)}
                     type="text"
                     id="name"
+                    value={userName}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="John"
                     autoComplete="name"
@@ -89,6 +108,7 @@ const Loggin: NextPage = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     id="email"
+                    value={email}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="john.doe@company.com"
                     autoComplete="email"
@@ -104,9 +124,10 @@ const Loggin: NextPage = () => {
                   Identification
                 </label>
                 <input
-                  onChange={(e) => setConfirmedPassword(e.target.value)}
+                  onChange={(e) => setIdentification(e.target.value)}
                   type="text"
                   id="idenfication"
+                  value={identification}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   placeholder="XXX-XXXX-XXX"
                   autoComplete="identification"
@@ -124,8 +145,10 @@ const Loggin: NextPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   id="password"
+                  value={password}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  placeholder="1234-5678-9012"
+                  placeholder="•••••••••"
+                  autoComplete="password"
                   required
                 />
               </div>
@@ -137,11 +160,13 @@ const Loggin: NextPage = () => {
                   Confirm Password
                 </label>
                 <input
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="confirmedPassword"
-                  id="password"
+                  onChange={(e) => setConfirmedPassword(e.target.value)}
+                  type="password"
+                  id="confirmedPassword"
+                  value={confirmedPassword}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   placeholder="•••••••••"
+                  autoComplete="password"
                   required
                 />
               </div>
@@ -152,6 +177,7 @@ const Loggin: NextPage = () => {
                     onChange={(e) => setConditionsAccepted(e.target.checked)}
                     id="conditionsAcepeted"
                     type="checkbox"
+                    checked={conditionsAcepeted}
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
                     required
                   />
@@ -172,7 +198,7 @@ const Loggin: NextPage = () => {
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
               >
-                Submit
+                {submitting ? "Submitting..." : "Register"}
               </button>
               <Paragraph className="mt-6">
                 Already have an account?{" "}
@@ -201,4 +227,4 @@ const Loggin: NextPage = () => {
   );
 };
 
-export default Loggin;
+export default Register;
