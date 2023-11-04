@@ -1,6 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { Footer } from "../components/footer";
 
 const Home: NextPage = () => {
   return (
@@ -18,7 +19,7 @@ const Home: NextPage = () => {
         <ConnectButton />
       </main>
 
-      <footer className="">footer</footer>
+      <Footer />
     </div>
   );
 };
