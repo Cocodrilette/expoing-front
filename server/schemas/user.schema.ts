@@ -1,6 +1,6 @@
-import { Schema, model } from "../mongoose";
+import { Schema, UserModel, model } from "../mongoose";
 
-interface IUser {
+export interface IUser {
   address: string;
   name: string;
   email: string;
@@ -8,21 +8,20 @@ interface IUser {
   password: string;
 }
 
-interface UserModelInterface extends IUser {}
-
-const UserSchema = new Schema<UserModelInterface>({
-  address: String,
-  name: String,
-  indentification: String,
-  email: String,
-  password: String,
-});
+export interface UserModelInterface extends IUser {}
 
 export class User {
-  private UserModel = model<UserModelInterface>("User", UserSchema);
+  private static instance: User;
+
+  static getInstance() {
+    if (!User.instance) {
+      User.instance = new User();
+    }
+    return User.instance;
+  }
 
   async createUser(user: IUser) {
-    const newUser = new this.UserModel(user);
+    const newUser = new UserModel(user);
     try {
       const savedUser = await newUser.save();
       console.log("User saved successfully!");
@@ -34,7 +33,7 @@ export class User {
 
   async getAllUsers() {
     try {
-      const users = await this.UserModel.find({});
+      const users = await UserModel.find({});
       console.log(users);
       return users;
     } catch (err) {
@@ -44,7 +43,7 @@ export class User {
 
   async updateUser(userId: string, user: Partial<IUser>) {
     try {
-      const updatedUser = await this.UserModel.findByIdAndUpdate(userId, user, {
+      const updatedUser = await UserModel.findByIdAndUpdate(userId, user, {
         new: true,
       });
       console.log("User updated successfully!");
@@ -56,7 +55,7 @@ export class User {
 
   async deleteUser(userId: string) {
     try {
-      const deletedUser = await this.UserModel.findByIdAndRemove(userId);
+      const deletedUser = await UserModel.findByIdAndRemove(userId);
       console.log("User deleted successfully!");
       return deletedUser;
     } catch (err) {
@@ -64,9 +63,19 @@ export class User {
     }
   }
 
+  async findByEmailAndAddress(email: string, address: string) {
+    try {
+      const user = await UserModel.findOne({ email, address });
+      console.log(user);
+      return user;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async findOneByAddress(address: string) {
     try {
-      const user = await this.UserModel.findOne({ address });
+      const user = await UserModel.findOne({ address });
       console.log(user);
       return user;
     } catch (err) {

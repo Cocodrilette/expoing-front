@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { UserModelInterface } from "./schemas/user.schema";
 
 export const Schema = mongoose.Schema;
 export const ObjectId = Schema.ObjectId;
@@ -16,3 +17,14 @@ export const connectToDb = async () => {
     return db;
   }
 };
+
+export const UserSchema = new Schema<UserModelInterface>({
+  address: String,
+  name: String,
+  indentification: String,
+  email: String,
+  password: String,
+});
+
+export const UserModel =
+  mongoose.models.User || model<UserModelInterface>("User", UserSchema);

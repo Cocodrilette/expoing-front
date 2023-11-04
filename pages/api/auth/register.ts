@@ -10,8 +10,6 @@ export default async function signup(
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  console.log(req.body);
-
   const { name, email, password, indentification, address } = req.body;
 
   if (!name || !email || !password) {
@@ -20,7 +18,7 @@ export default async function signup(
 
   await connectToDb();
 
-  const user = new User().createUser({
+  const user = User.getInstance().createUser({
     name,
     email,
     password,

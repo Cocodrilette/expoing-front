@@ -66,7 +66,7 @@ const Register: NextPage = () => {
       setIdentification("");
       setConditionsAccepted(false);
 
-      router.push("/auth/login");
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
       setError({
