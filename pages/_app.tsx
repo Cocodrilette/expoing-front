@@ -5,7 +5,6 @@ import type { AppProps } from "next/app";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { SessionProvider } from "next-auth/react";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
@@ -29,9 +28,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
-        <SessionProvider session={session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+        <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
   );
