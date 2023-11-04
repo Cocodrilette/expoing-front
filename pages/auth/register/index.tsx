@@ -16,12 +16,22 @@ const Loggin: NextPage = () => {
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [conditionsAcepeted, setConditionsAccepted] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [error, setError] = useState({
+    show: false,
+    message: "",
+  });
 
   const { isConnected: isWalletConnected, address } = useAccount();
 
   function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+
+    if (confirmedPassword !== password) {
+      return setError({
+        show: true,
+        message: "Passwords don't match",
+      });
+    }
 
     console.log({
       userName,
@@ -29,17 +39,6 @@ const Loggin: NextPage = () => {
       password,
       confirmedPassword,
       conditionsAcepeted,
-      address,
-    });
-
-    console.log({ data });
-
-    console.log("form data");
-    console.log({
-      name: data.get("name"),
-      email: data.get("email"),
-      password: data.get("password"),
-      conditionsAcepeted: data.get("conditionsAcepeted"),
       address,
     });
   }
@@ -64,7 +63,7 @@ const Loggin: NextPage = () => {
               <div className="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                   <label
-                    htmlFor="first_name"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     Name
@@ -72,7 +71,7 @@ const Loggin: NextPage = () => {
                   <input
                     onChange={(e) => setUserName(e.target.value)}
                     type="text"
-                    id="first_name"
+                    id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="John"
                     autoComplete="name"
@@ -132,14 +131,14 @@ const Loggin: NextPage = () => {
               </div>
               <div className="mb-6">
                 <label
-                  htmlFor="password"
+                  htmlFor="confirmedPassword"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Confirm Password
                 </label>
                 <input
                   onChange={(e) => setPassword(e.target.value)}
-                  type="password"
+                  type="confirmedPassword"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   placeholder="•••••••••"
@@ -151,14 +150,14 @@ const Loggin: NextPage = () => {
                 <div className="flex items-center h-5">
                   <input
                     onChange={(e) => setConditionsAccepted(e.target.checked)}
-                    id="remember"
+                    id="conditionsAcepeted"
                     type="checkbox"
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
                     required
                   />
                 </div>
                 <label
-                  htmlFor="remember"
+                  htmlFor="conditionsAcepeted"
                   className="ml-2 text-sm font-medium text-gray-900"
                 >
                   I agree with the{" "}
@@ -193,6 +192,9 @@ const Loggin: NextPage = () => {
               <ConnectButton />
             </div>
           )}
+          <div className={`${!error.show && "hidden"}`}>
+            <Paragraph className="text-red-500">{error.message}</Paragraph>
+          </div>
         </form>
       )}
     </Layout>
