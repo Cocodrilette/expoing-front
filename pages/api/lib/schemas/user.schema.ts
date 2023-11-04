@@ -3,8 +3,8 @@ import { Schema, model } from "../mongoose";
 interface IUser {
   address: string;
   name: string;
-  legalId: string;
   email: string;
+  indentification: string;
   password: string;
 }
 
@@ -13,7 +13,7 @@ interface UserModelInterface extends IUser {}
 const UserSchema = new Schema<UserModelInterface>({
   address: String,
   name: String,
-  legalId: String,
+  indentification: String,
   email: String,
   password: String,
 });
