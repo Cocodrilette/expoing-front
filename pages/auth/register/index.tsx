@@ -96,10 +96,43 @@ const Loggin: NextPage = () => {
           </div>
           <div className="mb-6">
             <label
+              htmlFor="idenfication"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Identification
+            </label>
+            <input
+              onChange={(e) => setConfirmedPassword(e.target.value)}
+              type="text"
+              id="idenfication"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="1234-5678-9012"
+              autoComplete="identification"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Password
+            </label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              type="text"
+              id="password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="1234-5678-9012"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Confirm Password
             </label>
             <input
               onChange={(e) => setPassword(e.target.value)}
@@ -110,23 +143,7 @@ const Loggin: NextPage = () => {
               required
             />
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="confirm_password"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Confirm password
-            </label>
-            <input
-              onChange={(e) => setConfirmedPassword(e.target.value)}
-              type="password"
-              id="confirm_password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="•••••••••"
-              autoComplete="new-password"
-              required
-            />
-          </div>
+
           <div className="flex items-start mb-6">
             <div className="flex items-center h-5">
               <input

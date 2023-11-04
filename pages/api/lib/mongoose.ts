@@ -4,7 +4,7 @@ export const Schema = mongoose.Schema;
 export const ObjectId = Schema.ObjectId;
 export const model = mongoose.model.bind(mongoose);
 
-export const connect = async () => {
+export const connectToDb = async () => {
   let db;
 
   const connectionUrl = process.env.NEXT_PUBLIC_MONGODB_URI ?? "";
