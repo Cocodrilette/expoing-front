@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDb } from "../lib/mongoose";
-import { User } from "../lib/schemas";
+import { connectToDb } from "../../../server/mongoose";
+import { User } from "../../../server/schemas";
 
 export default async function signup(
   req: NextApiRequest,
@@ -9,6 +9,8 @@ export default async function signup(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
+
+  console.log(req.body);
 
   const { name, email, password, indentification, address } = req.body;
 
