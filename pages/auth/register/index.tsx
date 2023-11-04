@@ -78,7 +78,17 @@ const Register: NextPage = () => {
     setSubmitting(false);
   }
 
+  async function checkUser() {
+    const userExists = await axios.get(`api/auth/exists/${address}`);
+    if (userExists) router.push("/dashboard");
+  }
+
   useEffect(() => setIsMounted(true), []);
+  useEffect(() => {
+    console.log("cehc");
+
+    if (isWalletConnected) checkUser();
+  }, [isWalletConnected]);
 
   return (
     <Layout>
